@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: work
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/wtc_crm
+
+jwt:
+  secret: your-super-secret-key
+  expiration: 86400000
