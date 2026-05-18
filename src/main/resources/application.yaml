@@ -4,10 +4,14 @@ server:
 spring:
   application:
     name: work
+  security:
+    user:
+      name: disabled
+      password: disabled
   data:
     mongodb:
       uri: mongodb://localhost:27017/wtc_crm
 
 jwt:
-  secret: your-super-secret-key
+  secret:  wtc-secret-key-super-ultra-safe-2026-project
   expiration: 86400000
