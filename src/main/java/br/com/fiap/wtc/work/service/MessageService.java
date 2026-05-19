@@ -4,6 +4,7 @@ import br.com.fiap.wtc.work.MessageStatus;
 import br.com.fiap.wtc.work.entity.Message;
 import br.com.fiap.wtc.work.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -37,12 +38,10 @@ public class MessageService {
             String user2
     ) {
 
-        return repository
-                .findBySenderIdAndReceiverIdOrReceiverIdAndSenderIdOrderByCreatedAtAsc(
-                        user1,
-                        user2,
-                        user2,
-                        user1
-                );
+        return repository.findConversation(
+                user1, 
+                user2, 
+                Sort.by(Sort.Direction.ASC, "createdAt")
+        );
     }
 }
