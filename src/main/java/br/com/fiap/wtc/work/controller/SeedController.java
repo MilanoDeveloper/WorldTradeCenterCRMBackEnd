@@ -21,10 +21,10 @@ public class SeedController {
         if (userRepository.findByEmail("admin@wtc.com").isEmpty()) {
 
             User admin = User.builder()
-                    .name("Administrador")
+                    .name("Operador")
                     .email("admin@wtc.com")
                     .password(passwordEncoder.encode("123123"))
-                    .role(UserRole.ADMIN)
+                    .role(UserRole.OPERATOR)
                     .build();
 
             userRepository.save(admin);

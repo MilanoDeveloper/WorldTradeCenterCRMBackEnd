@@ -14,6 +14,8 @@ public class CampaignService {
 
     private final CampaignRepository repository;
 
+    private final NotificationService notificationService;
+
     public List<Campaign> getAll() {
         return repository.findAll();
     }
@@ -34,6 +36,13 @@ public class CampaignService {
                 .endDate(request.getEndDate())
                 .build();
 
-        return repository.save(campaign);
+        Campaign savedCampaign = repository.save(campaign);
+
+        notificationService.createCampaignNotification(
+                savedCampaign.getTitle(),
+                savedCampaign.getDescription()
+        );
+
+        return savedCampaign;
     }
 }
