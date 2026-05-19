@@ -2,8 +2,10 @@ package br.com.fiap.wtc.work.config;
 
 import br.com.fiap.wtc.work.UserRole;
 import br.com.fiap.wtc.work.entity.Campaign;
+import br.com.fiap.wtc.work.entity.Client;
 import br.com.fiap.wtc.work.entity.User;
 import br.com.fiap.wtc.work.repository.CampaignRepository;
+import br.com.fiap.wtc.work.repository.ClientRepository;
 import br.com.fiap.wtc.work.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -17,19 +19,20 @@ import java.util.List;
 public class DatabaseSeeder implements CommandLineRunner {
 
     private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
     private final CampaignRepository campaignRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
         seedUsers();
+        seedClients();
         seedCampaigns();
     }
 
     private void seedUsers() {
         if (userRepository.count() == 0) {
             User admin = User.builder()
-                    .id("ID_OPERADOR")
                     .name("Operador WTC")
                     .email("admin@wtc.com")
                     .password(passwordEncoder.encode("123123"))
@@ -37,7 +40,6 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .build();
 
             User client1 = User.builder()
-                    .id("ID_JOAO")
                     .name("João Silva")
                     .email("joao@email.com")
                     .password(passwordEncoder.encode("123123"))
@@ -45,7 +47,6 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .build();
 
             User client2 = User.builder()
-                    .id("ID_MARIA")
                     .name("Maria Oliveira")
                     .email("maria@consultoria.com")
                     .password(passwordEncoder.encode("123123"))
@@ -53,8 +54,12 @@ public class DatabaseSeeder implements CommandLineRunner {
                     .build();
 
             userRepository.saveAll(List.of(admin, client1, client2));
-            System.out.println("Users seeded with fixed IDs.");
+            System.out.println("Users seeded successfully.");
         }
+    }
+
+    private void seedClients() {
+        // Agora os clientes são Usuários com papel CLIENT
     }
 
     private void seedCampaigns() {

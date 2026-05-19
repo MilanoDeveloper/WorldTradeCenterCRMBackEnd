@@ -4,6 +4,7 @@ import br.com.fiap.wtc.work.MessageStatus;
 import br.com.fiap.wtc.work.entity.Message;
 import br.com.fiap.wtc.work.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MessageService {
 
     private final MessageRepository repository;
@@ -21,6 +23,7 @@ public class MessageService {
             String receiverId,
             String content
     ) {
+        log.info("Enviando mensagem de {} para {}: {}", senderId, receiverId, content);
 
         Message message = Message.builder()
                 .senderId(senderId)
@@ -37,11 +40,15 @@ public class MessageService {
             String user1,
             String user2
     ) {
+        log.info("Buscando conversa entre {} e {}", user1, user2);
 
-        return repository.findConversation(
+        List<Message> messages = repository.findConversation(
                 user1, 
                 user2, 
                 Sort.by(Sort.Direction.ASC, "createdAt")
         );
+
+        log.info("Total de mensagens encontradas: {}", messages.size());
+        return messages;
     }
 }

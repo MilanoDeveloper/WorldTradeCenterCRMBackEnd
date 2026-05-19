@@ -1,5 +1,7 @@
 package br.com.fiap.wtc.work.service;
+import br.com.fiap.wtc.work.UserRole;
 import br.com.fiap.wtc.work.dto.request.LoginRequest;
+import br.com.fiap.wtc.work.dto.request.RegisterRequest;
 import br.com.fiap.wtc.work.dto.response.LoginResponse;
 import br.com.fiap.wtc.work.dto.response.UserResponse;
 import br.com.fiap.wtc.work.entity.User;
@@ -16,6 +18,24 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
+
+    public LoginResponse register(RegisterRequest request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email já cadastrado");
+        }
+
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(UserRole.CLIENT)
+                .build();
+
+        userRepository.save(user);
+
+        return login(new LoginRequest(user.getEmail(), request.getPassword()));
+    }
 
     public LoginResponse login(LoginRequest request) {
 

@@ -1,6 +1,7 @@
 package br.com.fiap.wtc.work.controller;
 
 import br.com.fiap.wtc.work.dto.request.LoginRequest;
+import br.com.fiap.wtc.work.dto.request.RegisterRequest;
 import br.com.fiap.wtc.work.dto.response.LoginResponse;
 import br.com.fiap.wtc.work.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+
+    @PostMapping("/register")
+    public ResponseEntity<LoginResponse> register(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(authService.register(request));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
